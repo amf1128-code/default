@@ -1,4 +1,4 @@
-export type MuscleGroup = "chest" | "back" | "legs" | "arms" | "shoulders" | "abs";
+export type MuscleGroup = "chest" | "back" | "legs" | "biceps" | "triceps" | "shoulders" | "abs";
 
 export interface SetRecord {
   weight: string;
@@ -15,4 +15,17 @@ export interface WorkoutRecord {
   date: string;
   areas: string[];
   exercises: ExerciseRecord[];
+  duration?: number;
+  totalRestTime?: number;
+  totalOvertime?: number;
+}
+
+export interface UserSettings {
+  defaultRestTimer: number;
+}
+
+export interface WorkoutTemplate {
+  id: string;
+  name: string;
+  exercises: { area: MuscleGroup; name: string }[];
 }
