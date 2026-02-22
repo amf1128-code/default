@@ -5,48 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gym Workout Tracker</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0a0a0f;
-      color: #e8e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d0d0d;
+      color: #e4e4e7;
       min-height: 100vh;
-      padding: 20px 16px 60px;
+      padding: 0 0 60px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ---- Shared ---- */
-    .screen-title {
-      text-align: center;
-      font-size: 1.6rem;
+    /* ---- Top bar ---- */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .top-bar-brand {
+      font-size: 1.1rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #a78bfa, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
+      letter-spacing: -0.03em;
+      color: #fafafa;
+    }
+
+    .top-bar-link {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #d4a053;
+      cursor: pointer;
+      padding: 6px 14px;
+      border: 1px solid rgba(212, 160, 83, 0.25);
+      border-radius: 20px;
+      background: rgba(212, 160, 83, 0.08);
+      transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .top-bar-link:active { background: rgba(212, 160, 83, 0.18); }
+
+    /* ---- Shared ---- */
+    .screen-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .screen-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fafafa;
+      margin-bottom: 4px;
     }
 
     .screen-subtitle {
-      text-align: center;
-      font-size: 0.95rem;
-      color: #6b7280;
-      margin-bottom: 28px;
+      font-size: 0.88rem;
+      color: #71717a;
+      margin-bottom: 24px;
       font-weight: 400;
+      line-height: 1.4;
     }
 
     /* ---- Area selection screen ---- */
-    #area-select {
-      max-width: 440px;
-      margin: 0 auto;
-    }
+    #area-select { padding: 0 16px; max-width: 500px; margin: 0 auto; }
 
     .area-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
     .area-btn {
@@ -55,48 +89,82 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 22px 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border: 2px solid transparent;
-      border-radius: 16px;
+      gap: 10px;
+      padding: 24px 12px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border: 1.5px solid #1f1f23;
+      border-radius: 20px;
       cursor: pointer;
       text-align: center;
-      transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
-      color: #fff;
-      background: #1a1a2e;
+      transition: transform 0.12s, border-color 0.25s, background 0.25s;
+      color: #a1a1aa;
+      background: #141416;
       -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
     }
 
     .area-btn .area-icon {
-      font-size: 1.8rem;
-      line-height: 1;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .area-btn:active { transform: scale(0.96); }
+    .area-btn .area-icon svg {
+      width: 32px;
+      height: 32px;
+      opacity: 0.55;
+      transition: opacity 0.25s;
+    }
+
+    .area-btn:active { transform: scale(0.97); }
 
     .area-btn.selected {
-      border-color: #a78bfa;
-      box-shadow: 0 0 20px rgba(167, 139, 250, 0.25), inset 0 0 20px rgba(167, 139, 250, 0.08);
+      border-color: #d4a053;
+      background: linear-gradient(165deg, #1c1a14 0%, #141416 100%);
+      color: #e4e0d6;
+    }
+
+    .area-btn.selected .area-icon svg {
+      opacity: 0.9;
+    }
+
+    .area-btn.selected::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d4a053, transparent);
     }
 
     .area-btn.selected::after {
       content: "";
       position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 20px;
-      height: 20px;
+      top: 10px;
+      right: 10px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background: #a78bfa;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
-      background-size: 14px;
-      background-repeat: no-repeat;
-      background-position: center;
+      background: #d4a053;
     }
 
-    /* Full-width last item if odd count */
+    .area-btn .check-svg {
+      position: absolute;
+      top: 13px;
+      right: 13px;
+      width: 12px;
+      height: 12px;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0.2s;
+    }
+
+    .area-btn.selected .check-svg { opacity: 1; }
+
     .area-grid > .area-btn:last-child:nth-child(odd) {
       grid-column: 1 / -1;
     }
@@ -105,163 +173,166 @@
       display: none;
       width: 100%;
       padding: 16px;
-      font-size: 1.05rem;
+      font-size: 0.92rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #7c3aed, #6366f1);
-      color: #fff;
+      background: linear-gradient(135deg, #d4a053, #c4842d);
+      color: #0d0d0d;
       border: none;
-      border-radius: 14px;
+      border-radius: 16px;
       cursor: pointer;
-      transition: transform 0.15s, opacity 0.2s;
+      transition: transform 0.12s;
       letter-spacing: 0.01em;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    #start-workout-btn:active { transform: scale(0.97); }
+    #start-workout-btn:active { transform: scale(0.98); }
     #start-workout-btn.visible { display: block; }
 
     .selection-hint {
       text-align: center;
-      color: #4b5563;
-      font-size: 0.82rem;
-      margin-top: 12px;
+      color: #3f3f46;
+      font-size: 0.78rem;
+      margin-top: 14px;
+      font-weight: 500;
     }
-
-    /* ---- History link ---- */
-    #history-link {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      padding: 14px;
-      color: #818cf8;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid #1e1e3a;
-      border-radius: 12px;
-      background: #12121f;
-      transition: background 0.2s;
-    }
-
-    #history-link:active { background: #1a1a30; }
 
     /* ---- Workout screen ---- */
     #workout-screen {
       display: none;
-      max-width: 500px;
-      margin: 0 auto;
     }
 
-    #workout-header {
+    .workout-hero {
+      background: linear-gradient(170deg, #1a1712 0%, #0d0d0d 60%);
+      padding: 16px 20px 20px;
+      margin-bottom: 8px;
+    }
+
+    .workout-hero-inner {
+      max-width: 500px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
     }
 
     #workout-title {
-      font-size: 1.2rem;
-      font-weight: 700;
+      font-size: 1.15rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #c4b5fd;
+      letter-spacing: 0.03em;
+      color: #d4a053;
       margin: 0;
     }
 
     #back-btn {
-      background: #1e1e30;
-      color: #9ca3af;
-      border: 1px solid #2a2a40;
-      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      color: #a1a1aa;
+      border: 1px solid #27272a;
+      border-radius: 12px;
       padding: 8px 16px;
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.8rem;
+      font-weight: 600;
       cursor: pointer;
       transition: background 0.2s;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    #back-btn:active { background: #2a2a40; }
+    #back-btn:active { background: rgba(255,255,255,0.1); }
+
+    #exercise-list-wrap {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
 
     .exercise-card {
-      background: #13131f;
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 12px;
-      border-left: 3px solid #2a2a40;
+      background: #141416;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 10px;
+      border: 1px solid #1f1f23;
       transition: border-color 0.3s;
+      position: relative;
+    }
+
+    .exercise-card::before {
+      content: "";
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #27272a;
+      transition: background 0.3s;
     }
 
     .exercise-name {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      margin-bottom: 12px;
-      color: #e2e0f0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .exercise-name .check-icon {
-      display: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #22c55e;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
-      background-size: 12px;
-      background-repeat: no-repeat;
-      background-position: center;
-      flex-shrink: 0;
+      margin-bottom: 14px;
+      color: #e4e4e7;
+      padding-left: 18px;
     }
 
     .exercise-card.done {
-      border-left-color: #22c55e;
+      border-color: rgba(74, 222, 128, 0.2);
     }
 
-    .exercise-card.done .exercise-name .check-icon {
-      display: block;
+    .exercise-card.done::before {
+      background: #4ade80;
+      box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
     }
 
     .previous-weight {
-      font-size: 0.75rem;
-      color: #6b7280;
-      margin-bottom: 10px;
+      font-size: 0.72rem;
+      color: #71717a;
+      margin-bottom: 12px;
       padding: 6px 10px;
-      background: #1a1a2a;
-      border-radius: 8px;
-      font-style: italic;
+      background: rgba(212, 160, 83, 0.06);
+      border: 1px solid rgba(212, 160, 83, 0.1);
+      border-radius: 10px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
     }
 
     .sets-container {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .set-row {
       display: flex;
       align-items: center;
       gap: 8px;
+      padding: 4px 0;
     }
 
     .set-label {
-      font-size: 0.8rem;
-      color: #6b7280;
-      width: 44px;
+      font-size: 0.72rem;
+      color: #52525b;
+      width: 38px;
       flex-shrink: 0;
-      font-weight: 600;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .set-row input {
-      width: 72px;
+      width: 68px;
       padding: 10px 6px;
-      border-radius: 10px;
-      border: 1px solid #2a2a40;
-      background: #0f0f1a;
-      color: #e8e8f0;
-      font-size: 0.95rem;
+      border-radius: 12px;
+      border: 1px solid #27272a;
+      background: #0d0d0d;
+      color: #e4e4e7;
+      font-size: 0.9rem;
+      font-weight: 600;
       text-align: center;
       transition: border-color 0.2s, box-shadow 0.2s;
       -moz-appearance: textfield;
+      font-family: inherit;
     }
 
     .set-row input::-webkit-outer-spin-button,
@@ -272,245 +343,357 @@
 
     .set-row input:focus {
       outline: none;
-      border-color: #7c3aed;
-      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+      border-color: #d4a053;
+      box-shadow: 0 0 0 3px rgba(212, 160, 83, 0.1);
     }
 
-    .set-row input::placeholder { color: #3a3a50; }
+    .set-row input::placeholder { color: #2c2c30; }
 
     .input-label {
-      font-size: 0.72rem;
-      color: #4b5563;
-      width: 26px;
-      font-weight: 500;
+      font-size: 0.68rem;
+      color: #3f3f46;
+      width: 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
     #finish-btn {
       display: block;
       width: 100%;
-      margin-top: 28px;
+      max-width: 500px;
+      margin: 20px auto 0;
       padding: 16px;
-      font-size: 1.05rem;
+      font-size: 0.92rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #059669, #10b981);
-      color: #fff;
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      color: #052e16;
       border: none;
-      border-radius: 14px;
+      border-radius: 16px;
       cursor: pointer;
-      transition: transform 0.15s;
-      letter-spacing: 0.01em;
+      transition: transform 0.12s;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    #finish-btn:active { transform: scale(0.97); }
+    #finish-btn-wrap { padding: 0 16px; }
+    #finish-btn:active { transform: scale(0.98); }
 
     /* ---- Summary screen ---- */
     #summary-screen {
       display: none;
-      max-width: 500px;
-      margin: 0 auto;
+    }
+
+    .summary-hero {
       text-align: center;
+      padding: 32px 20px 24px;
+      background: linear-gradient(170deg, #0f1a12 0%, #0d0d0d 60%);
     }
 
-    .summary-header-icon {
-      font-size: 3rem;
-      margin-bottom: 8px;
+    .summary-hero .screen-title {
+      color: #4ade80;
+      margin-bottom: 6px;
     }
 
-    #summary-screen .screen-title {
-      background: linear-gradient(135deg, #34d399, #60a5fa);
-      -webkit-background-clip: text;
-      background-clip: text;
-      margin-bottom: 4px;
-    }
-
-    #summary-screen .screen-subtitle {
-      margin-bottom: 24px;
+    .summary-hero .screen-subtitle {
+      margin-bottom: 0;
     }
 
     #summary-list {
       text-align: left;
-      margin-bottom: 24px;
+      padding: 8px 16px 0;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .summary-exercise {
-      background: #13131f;
-      border-radius: 12px;
+      background: #141416;
+      border: 1px solid #1f1f23;
+      border-radius: 14px;
       padding: 14px 16px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .summary-exercise h3 {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
       margin-bottom: 6px;
-      color: #c4b5fd;
+      color: #d4a053;
     }
 
     .summary-exercise p {
-      font-size: 0.82rem;
-      color: #6b7280;
+      font-size: 0.78rem;
+      color: #52525b;
       margin: 3px 0;
+      font-weight: 500;
     }
 
     .summary-exercise p span {
-      color: #a5b4fc;
+      color: #a1a1aa;
       font-weight: 600;
     }
 
     #new-workout-btn {
       display: block;
       width: 100%;
+      max-width: 468px;
+      margin: 16px auto 0;
       padding: 16px;
-      font-size: 1.05rem;
+      font-size: 0.92rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #7c3aed, #6366f1);
-      color: #fff;
+      background: linear-gradient(135deg, #d4a053, #c4842d);
+      color: #0d0d0d;
       border: none;
-      border-radius: 14px;
+      border-radius: 16px;
       cursor: pointer;
-      transition: transform 0.15s;
+      transition: transform 0.12s;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    #new-workout-btn:active { transform: scale(0.97); }
+    #new-workout-wrap { padding: 0 16px; }
+    #new-workout-btn:active { transform: scale(0.98); }
 
     /* ---- History screen ---- */
-    #history-screen {
-      display: none;
-      max-width: 500px;
-      margin: 0 auto;
+    #history-screen { display: none; }
+
+    .history-hero {
+      padding: 16px 20px 20px;
+      background: linear-gradient(170deg, #15131a 0%, #0d0d0d 60%);
     }
 
-    #history-header {
+    .history-hero-inner {
+      max-width: 500px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
     }
 
-    #history-header h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #c4b5fd;
+    .history-hero h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fafafa;
       margin: 0;
     }
 
     #history-back-btn {
-      background: #1e1e30;
-      color: #9ca3af;
-      border: 1px solid #2a2a40;
-      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      color: #a1a1aa;
+      border: 1px solid #27272a;
+      border-radius: 12px;
       padding: 8px 16px;
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.8rem;
+      font-weight: 600;
       cursor: pointer;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #history-list-wrap {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 8px 16px 0;
     }
 
     .history-entry {
-      background: #13131f;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
+      background: #141416;
+      border: 1px solid #1f1f23;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 8px;
       cursor: pointer;
       transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .history-entry:active { background: #1a1a2e; }
+    .history-entry:active { background: #1a1a1e; }
 
     .history-date {
-      font-size: 0.78rem;
-      color: #6b7280;
+      font-size: 0.72rem;
+      color: #52525b;
       margin-bottom: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .history-areas {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #a5b4fc;
-      margin-bottom: 4px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #d4a053;
+      margin-bottom: 2px;
     }
 
     .history-detail {
-      font-size: 0.8rem;
-      color: #4b5563;
+      font-size: 0.76rem;
+      color: #3f3f46;
+      font-weight: 500;
     }
 
     .history-empty {
       text-align: center;
-      color: #4b5563;
-      padding: 40px 20px;
-      font-size: 0.9rem;
+      color: #3f3f46;
+      padding: 48px 20px;
+      font-size: 0.88rem;
+      font-weight: 500;
     }
 
     .history-expanded {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #2a2a40;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #1f1f23;
     }
 
     .history-expanded .summary-exercise {
-      background: #0f0f1a;
+      background: #0d0d0d;
+      border-color: #1a1a1e;
       margin-bottom: 6px;
       padding: 10px 12px;
+    }
+
+    #clear-history-wrap {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 8px 16px;
     }
 
     #clear-history-btn {
       display: block;
       width: 100%;
-      margin-top: 16px;
       padding: 12px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       background: transparent;
-      color: #ef4444;
-      border: 1px solid #3b1a1a;
-      border-radius: 12px;
+      color: #71717a;
+      border: 1px solid #1f1f23;
+      border-radius: 14px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: color 0.2s;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    #clear-history-btn:active { background: #1a0f0f; }
+    #clear-history-btn:active { color: #ef4444; }
   </style>
 </head>
 <body>
 
   <!-- Screen 1: Pick body areas (multi-select) -->
   <div id="area-select">
-    <h1 class="screen-title">Workout</h1>
-    <p class="screen-subtitle">Select the muscle groups you want to hit</p>
-    <div class="area-grid" id="area-grid"></div>
-    <button id="start-workout-btn">Start Workout</button>
-    <p class="selection-hint" id="selection-hint">Tap one or more to get started</p>
-    <div id="history-link">View Workout History</div>
+    <div class="top-bar">
+      <div class="top-bar-brand">Workout</div>
+      <div class="top-bar-link" id="history-link">History</div>
+    </div>
+    <div style="padding: 0 16px;">
+      <h1 class="screen-title">What are we hitting?</h1>
+      <p class="screen-subtitle">Select one or more muscle groups</p>
+      <div class="area-grid" id="area-grid"></div>
+      <button id="start-workout-btn">Start Workout</button>
+      <p class="selection-hint" id="selection-hint">Tap to select</p>
+    </div>
   </div>
 
   <!-- Screen 2: Today's workout -->
   <div id="workout-screen">
-    <div id="workout-header">
-      <h2 id="workout-title"></h2>
-      <button id="back-btn">Back</button>
+    <div class="workout-hero">
+      <div class="workout-hero-inner">
+        <h2 id="workout-title"></h2>
+        <button id="back-btn">Back</button>
+      </div>
     </div>
-    <div id="exercise-list"></div>
-    <button id="finish-btn">Finish Workout</button>
+    <div id="exercise-list-wrap">
+      <div id="exercise-list"></div>
+    </div>
+    <div id="finish-btn-wrap">
+      <button id="finish-btn">Finish Workout</button>
+    </div>
   </div>
 
   <!-- Screen 3: Summary -->
   <div id="summary-screen">
-    <div class="summary-header-icon">&#x1F4AA;</div>
-    <h2 class="screen-title">Workout Complete!</h2>
-    <p class="screen-subtitle">Great session. Here's what you logged.</p>
+    <div class="summary-hero">
+      <h2 class="screen-title">Workout Complete</h2>
+      <p class="screen-subtitle">Here's what you logged today.</p>
+    </div>
     <div id="summary-list"></div>
-    <button id="new-workout-btn">Start New Workout</button>
+    <div id="new-workout-wrap">
+      <button id="new-workout-btn">Start New Workout</button>
+    </div>
   </div>
 
   <!-- Screen 4: History -->
   <div id="history-screen">
-    <div id="history-header">
-      <h2>Workout History</h2>
-      <button id="history-back-btn">Back</button>
+    <div class="history-hero">
+      <div class="history-hero-inner">
+        <h2>History</h2>
+        <button id="history-back-btn">Back</button>
+      </div>
     </div>
-    <div id="history-list"></div>
-    <button id="clear-history-btn">Clear All History</button>
+    <div id="history-list-wrap">
+      <div id="history-list"></div>
+    </div>
+    <div id="clear-history-wrap">
+      <button id="clear-history-btn">Clear All History</button>
+    </div>
   </div>
+
+  <!-- SVG icon definitions (hidden) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+    <symbol id="icon-chest" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M32 14v36"/>
+      <path d="M12 22c0-3 4-8 10-8s10 8 10 14-3 14-6 16"/>
+      <path d="M52 22c0-3-4-8-10-8s-10 8-10 14 3 14 6 16"/>
+      <ellipse cx="22" cy="28" rx="4" ry="6" opacity="0.3" fill="currentColor" stroke="none"/>
+      <ellipse cx="42" cy="28" rx="4" ry="6" opacity="0.3" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="icon-back" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 12v40"/>
+      <path d="M42 12v40"/>
+      <path d="M22 16c6 0 20 2 20 8"/>
+      <path d="M22 28c6 0 20 2 20 8"/>
+      <path d="M22 40c6 0 20 2 20 8"/>
+      <path d="M16 14h12" opacity="0.4"/>
+      <path d="M36 14h12" opacity="0.4"/>
+    </symbol>
+    <symbol id="icon-legs" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 10c-1 10-3 18-4 28s2 14 2 18"/>
+      <path d="M40 10c1 10 3 18 4 28s-2 14-2 18"/>
+      <ellipse cx="24" cy="24" rx="4" ry="8" opacity="0.2" fill="currentColor" stroke="none"/>
+      <ellipse cx="40" cy="24" rx="4" ry="8" opacity="0.2" fill="currentColor" stroke="none"/>
+      <path d="M20 56h8" />
+      <path d="M36 56h8" />
+    </symbol>
+    <symbol id="icon-arms" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 44c0-8 4-12 6-20s2-12 2-12"/>
+      <path d="M30 12c2 6 8 14 8 24"/>
+      <ellipse cx="26" cy="30" rx="5" ry="8" opacity="0.2" fill="currentColor" stroke="none"/>
+      <path d="M38 36c0 0 4-2 6-2s4 1 4 4-2 6-6 6"/>
+      <path d="M16 44h22" opacity="0.3"/>
+    </symbol>
+    <symbol id="icon-shoulders" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M32 22v20"/>
+      <path d="M32 22c-6-1-16 0-20 8"/>
+      <path d="M32 22c6-1 16 0 20 8"/>
+      <circle cx="32" cy="16" r="5" opacity="0.3" fill="currentColor" stroke="none"/>
+      <ellipse cx="16" cy="30" rx="5" ry="4" opacity="0.2" fill="currentColor" stroke="none"/>
+      <ellipse cx="48" cy="30" rx="5" ry="4" opacity="0.2" fill="currentColor" stroke="none"/>
+      <path d="M24 42h16"/>
+    </symbol>
+    <symbol id="icon-abs" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="20" y="10" width="24" height="44" rx="6"/>
+      <path d="M32 14v36"/>
+      <path d="M22 22h20"/>
+      <path d="M22 32h20"/>
+      <path d="M22 42h20"/>
+      <rect x="24" y="15" width="6" height="6" rx="1.5" opacity="0.15" fill="currentColor" stroke="none"/>
+      <rect x="34" y="15" width="6" height="6" rx="1.5" opacity="0.15" fill="currentColor" stroke="none"/>
+      <rect x="24" y="25" width="6" height="6" rx="1.5" opacity="0.15" fill="currentColor" stroke="none"/>
+      <rect x="34" y="25" width="6" height="6" rx="1.5" opacity="0.15" fill="currentColor" stroke="none"/>
+      <rect x="24" y="35" width="6" height="6" rx="1.5" opacity="0.15" fill="currentColor" stroke="none"/>
+      <rect x="34" y="35" width="6" height="6" rx="1.5" opacity="0.15" fill="currentColor" stroke="none"/>
+    </symbol>
+  </svg>
 
   <script>
     // ===== Exercise database =====
@@ -548,12 +731,12 @@
     };
 
     const AREA_META = {
-      chest:     { icon: "\u{1F4AA}", label: "Chest" },
-      back:      { icon: "\u{1F9B4}", label: "Back" },
-      legs:      { icon: "\u{1F9B5}", label: "Legs" },
-      arms:      { icon: "\u{1F4AA}", label: "Arms" },
-      shoulders: { icon: "\u{1F3CB}", label: "Shoulders" },
-      abs:       { icon: "\u{1F525}", label: "Abs" },
+      chest:     { icon: "icon-chest",     label: "Chest" },
+      back:      { icon: "icon-back",      label: "Back" },
+      legs:      { icon: "icon-legs",      label: "Legs" },
+      arms:      { icon: "icon-arms",      label: "Arms" },
+      shoulders: { icon: "icon-shoulders", label: "Shoulders" },
+      abs:       { icon: "icon-abs",       label: "Abs" },
     };
 
     const SETS_PER_EXERCISE = 3;
@@ -576,12 +759,18 @@
     const summaryList     = document.getElementById("summary-list");
     const historyList     = document.getElementById("history-list");
 
-    // ===== Build area buttons dynamically =====
+    // ===== Build area buttons =====
+    const checkSvg = '<svg class="check-svg" viewBox="0 0 24 24" fill="#0d0d0d" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+
     Object.keys(AREA_META).forEach(area => {
+      const meta = AREA_META[area];
       const btn = document.createElement("button");
       btn.className = "area-btn";
       btn.dataset.area = area;
-      btn.innerHTML = `<span class="area-icon">${AREA_META[area].icon}</span>${AREA_META[area].label}`;
+      btn.innerHTML = `
+        <span class="area-icon"><svg><use href="#${meta.icon}"/></svg></span>
+        ${meta.label}
+        ${checkSvg}`;
       btn.addEventListener("click", () => toggleArea(area, btn));
       areaGrid.appendChild(btn);
     });
@@ -603,11 +792,11 @@
       if (selectedAreas.length > 0) {
         startBtn.classList.add("visible");
         const labels = selectedAreas.map(a => AREA_META[a].label);
-        startBtn.textContent = `Start ${labels.join(" + ")} Workout`;
-        selectionHint.textContent = `${selectedAreas.length} selected`;
+        startBtn.textContent = labels.join(" + ");
+        selectionHint.textContent = selectedAreas.length + " selected";
       } else {
         startBtn.classList.remove("visible");
-        selectionHint.textContent = "Tap one or more to get started";
+        selectionHint.textContent = "Tap to select";
       }
     }
 
@@ -621,7 +810,6 @@
     function saveWorkout(record) {
       const history = loadHistory();
       history.unshift(record);
-      // Keep last 50 workouts
       if (history.length > 50) history.length = 50;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
     }
@@ -632,7 +820,6 @@
         if (!workout.exercises) continue;
         for (const ex of workout.exercises) {
           if (ex.name === exerciseName) {
-            // Return the first set that has a real weight
             for (const set of ex.sets) {
               if (set.weight && set.weight !== "-" && Number(set.weight) > 0) {
                 return set.weight;
@@ -644,7 +831,7 @@
       return null;
     }
 
-    // ===== Pick a random workout per area =====
+    // ===== Generate workout =====
     function generateWorkout(areas) {
       const exercises = [];
       areas.forEach(area => {
@@ -655,7 +842,7 @@
       return exercises;
     }
 
-    // ===== Render the workout =====
+    // ===== Render workout =====
     function showWorkout() {
       if (selectedAreas.length === 0) return;
 
@@ -672,7 +859,7 @@
         const lastWeight = getLastWeight(ex.name);
         let prevHtml = "";
         if (lastWeight) {
-          prevHtml = `<div class="previous-weight">Previous: ${lastWeight} lbs</div>`;
+          prevHtml = `<div class="previous-weight">Last session: ${lastWeight} lbs</div>`;
         }
 
         let setsHTML = "";
@@ -680,23 +867,22 @@
           const prefill = lastWeight || "";
           setsHTML += `
             <div class="set-row">
-              <span class="set-label">Set ${s}</span>
-              <input type="number" inputmode="decimal" placeholder="${prefill || '0'}" value="${prefill}" data-exercise="${i}" data-set="${s}" data-field="weight">
+              <span class="set-label">S${s}</span>
+              <input type="number" inputmode="decimal" placeholder="${prefill || '-'}" value="${prefill}" data-exercise="${i}" data-set="${s}" data-field="weight">
               <span class="input-label">lbs</span>
-              <input type="number" inputmode="numeric" placeholder="0" data-exercise="${i}" data-set="${s}" data-field="reps">
+              <input type="number" inputmode="numeric" placeholder="-" data-exercise="${i}" data-set="${s}" data-field="reps">
               <span class="input-label">reps</span>
             </div>`;
         }
 
         card.innerHTML = `
-          <div class="exercise-name"><span class="check-icon"></span>${ex.name}</div>
+          <div class="exercise-name">${ex.name}</div>
           ${prevHtml}
           <div class="sets-container">${setsHTML}</div>`;
 
         exerciseList.appendChild(card);
       });
 
-      // Mark card as done when any input gets a value
       exerciseList.querySelectorAll("input").forEach(input => {
         input.addEventListener("input", () => {
           const card = input.closest(".exercise-card");
@@ -712,7 +898,7 @@
       workoutScreen.style.display = "block";
     }
 
-    // ===== Finish workout & show summary =====
+    // ===== Finish workout =====
     function finishWorkout() {
       summaryList.innerHTML = "";
 
@@ -731,7 +917,7 @@
         for (let s = 1; s <= SETS_PER_EXERCISE; s++) {
           const w = exerciseList.querySelector(`input[data-exercise="${i}"][data-set="${s}"][data-field="weight"]`).value || "-";
           const r = exerciseList.querySelector(`input[data-exercise="${i}"][data-set="${s}"][data-field="reps"]`).value || "-";
-          setsText += `<p>Set ${s}: <span>${w} lbs x ${r} reps</span></p>`;
+          setsText += `<p>Set ${s}: <span>${w} lbs x ${r}</span></p>`;
           exRecord.sets.push({ weight: w, reps: r });
         }
 
@@ -746,34 +932,31 @@
       summaryScreen.style.display = "block";
     }
 
-    // ===== History screen =====
+    // ===== History =====
     function showHistory() {
       const history = loadHistory();
       historyList.innerHTML = "";
 
       if (history.length === 0) {
-        historyList.innerHTML = '<div class="history-empty">No workouts logged yet. Get after it!</div>';
+        historyList.innerHTML = '<div class="history-empty">No workouts logged yet.</div>';
       } else {
-        history.forEach((entry, idx) => {
+        history.forEach(entry => {
           const div = document.createElement("div");
           div.className = "history-entry";
 
           const d = new Date(entry.date);
-          const dateStr = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+          const dateStr = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
           const timeStr = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
           const exCount = entry.exercises ? entry.exercises.length : 0;
 
           div.innerHTML = `
-            <div class="history-date">${dateStr} at ${timeStr}</div>
+            <div class="history-date">${dateStr} &middot; ${timeStr}</div>
             <div class="history-areas">${entry.areas.join(" + ")}</div>
             <div class="history-detail">${exCount} exercises</div>`;
 
           div.addEventListener("click", () => {
             const existing = div.querySelector(".history-expanded");
-            if (existing) {
-              existing.remove();
-              return;
-            }
+            if (existing) { existing.remove(); return; }
             if (entry.exercises) {
               const details = document.createElement("div");
               details.className = "history-expanded";
@@ -782,7 +965,7 @@
                 exDiv.className = "summary-exercise";
                 let setsHtml = "";
                 ex.sets.forEach((set, si) => {
-                  setsHtml += `<p>Set ${si + 1}: <span>${set.weight} lbs x ${set.reps} reps</span></p>`;
+                  setsHtml += `<p>Set ${si + 1}: <span>${set.weight} lbs x ${set.reps}</span></p>`;
                 });
                 exDiv.innerHTML = `<h3>${ex.name}</h3>${setsHtml}`;
                 details.appendChild(exDiv);
@@ -799,14 +982,14 @@
       historyScreen.style.display = "block";
     }
 
-    // ===== Reset selection state =====
+    // ===== Reset =====
     function resetSelection() {
       selectedAreas = [];
       document.querySelectorAll(".area-btn").forEach(b => b.classList.remove("selected"));
       updateStartButton();
     }
 
-    // ===== Event listeners =====
+    // ===== Events =====
     startBtn.addEventListener("click", showWorkout);
 
     document.getElementById("back-btn").addEventListener("click", () => {
@@ -830,7 +1013,7 @@
     });
 
     document.getElementById("clear-history-btn").addEventListener("click", () => {
-      if (confirm("Clear all workout history? This cannot be undone.")) {
+      if (confirm("Clear all workout history?")) {
         localStorage.removeItem(STORAGE_KEY);
         showHistory();
       }
