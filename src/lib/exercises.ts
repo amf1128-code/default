@@ -9,7 +9,8 @@ export const AREA_META: Record<MuscleGroup, AreaMeta> = {
   chest:     { icon: "chest",     label: "Chest" },
   back:      { icon: "back",      label: "Back" },
   legs:      { icon: "legs",      label: "Legs" },
-  arms:      { icon: "arms",      label: "Arms" },
+  biceps:    { icon: "biceps",    label: "Biceps" },
+  triceps:   { icon: "triceps",   label: "Triceps" },
   shoulders: { icon: "shoulders", label: "Shoulders" },
   abs:       { icon: "abs",       label: "Abs" },
 };
@@ -30,10 +31,15 @@ export const WORKOUTS: Record<MuscleGroup, string[][]> = {
     ["Front Squats", "Leg Curls", "Walking Lunges", "Leg Extensions"],
     ["Goblet Squats", "Hip Thrusts", "Bulgarian Split Squats", "Seated Calf Raises"],
   ],
-  arms: [
-    ["Barbell Curls", "Tricep Dips", "Hammer Curls", "Overhead Tricep Extension"],
-    ["Dumbbell Curls", "Close Grip Bench Press", "Preacher Curls", "Tricep Pushdowns"],
-    ["EZ Bar Curls", "Skull Crushers", "Concentration Curls", "Cable Tricep Kickbacks"],
+  biceps: [
+    ["Barbell Curls", "Hammer Curls", "Preacher Curls", "Concentration Curls"],
+    ["Dumbbell Curls", "EZ Bar Curls", "Cable Curls", "Incline Dumbbell Curls"],
+    ["Spider Curls", "Reverse Curls", "Zottman Curls", "Chin-Ups"],
+  ],
+  triceps: [
+    ["Tricep Dips", "Skull Crushers", "Tricep Pushdowns", "Overhead Tricep Extension"],
+    ["Close Grip Bench Press", "Cable Tricep Kickbacks", "Diamond Push-Ups", "Rope Pushdowns"],
+    ["JM Press", "Tate Press", "Single Arm Pushdowns", "Bench Dips"],
   ],
   shoulders: [
     ["Overhead Press", "Lateral Raises", "Front Raises", "Reverse Pec Deck"],
@@ -48,3 +54,22 @@ export const WORKOUTS: Record<MuscleGroup, string[][]> = {
 };
 
 export const MUSCLE_GROUPS: MuscleGroup[] = Object.keys(AREA_META) as MuscleGroup[];
+
+/** Get all unique exercise names for a muscle group */
+export function getAllExercises(area: MuscleGroup): string[] {
+  const sets = WORKOUTS[area];
+  const seen = new Set<string>();
+  for (const arr of sets) {
+    for (const name of arr) {
+      seen.add(name);
+    }
+  }
+  return Array.from(seen);
+}
+
+/** Generate random exercises for a muscle group */
+export function getRandomExercises(area: MuscleGroup, count: number): string[] {
+  const all = getAllExercises(area);
+  const shuffled = [...all].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(count, all.length));
+}
