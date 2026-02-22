@@ -4,121 +4,148 @@ This file provides guidance for AI assistants (Claude and others) working in thi
 
 ## Project Overview
 
-This is a starter project repository (`default`) owned by amf1128-code. It is currently a blank slate with no established framework or language. As the project grows, update this file to reflect actual conventions, tooling, and workflows.
+A React Native gym tracking app built with **Expo** (SDK 52) and **Expo Router**. The app targets iOS and lets users log workouts (exercises, sets, reps, weight) and track progress over time.
 
-## Repository State
-
-- **Current status**: Empty starter project
-- **Branch model**: Feature branches prefixed with `claude/` for AI-assisted work; `master` is the main branch
+- **Framework**: React Native + Expo
+- **Routing**: Expo Router (file-based, similar to Next.js)
+- **Language**: TypeScript
+- **Main branch**: `master`
 - **Remote**: `amf1128-code/default`
 
-## Development Workflow
-
-### Branching
+## Running the App
 
 ```bash
-# Create a new feature branch
-git checkout -b feature/<description>
+# Install dependencies (first time only)
+npm install
 
-# AI-assisted branches follow this pattern:
-# claude/<task-description>-<session-id>
+# Start the Expo development server
+npx expo start
 ```
 
-### Commit Conventions
+After starting, scan the QR code with the **Expo Go** app on your iPhone (download from the App Store) to see the app live on your phone.
 
-Write clear, descriptive commit messages in the imperative mood:
-
-```
-Add user authentication module
-Fix null pointer in payment processing
-Update README with setup instructions
-```
-
-- Keep the subject line under 72 characters
-- Use the body to explain *why*, not *what*, when the change is non-obvious
-- Reference issues/tickets when relevant: `Fixes #123`
-
-### Pushing Changes
-
-```bash
-git push -u origin <branch-name>
-```
-
-## General Coding Conventions
-
-Until a specific language/framework is chosen and configured, follow these general principles:
-
-### Code Style
-
-- Prefer clarity over cleverness
-- Keep functions small and focused on a single responsibility
-- Use descriptive names for variables, functions, and classes
-- Avoid deep nesting; prefer early returns
-- Delete dead code rather than commenting it out
-
-### Project Structure (to establish as the project grows)
+## Project Structure
 
 ```
-project-root/
-├── CLAUDE.md          # This file - AI assistant guidance
-├── README.md          # Human-facing project documentation
-├── src/               # Source code
-├── tests/             # Test files mirroring src/ structure
-├── docs/              # Additional documentation
-└── scripts/           # Build/utility scripts
+app/                        # All screens and navigation (Expo Router)
+├── _layout.tsx             # Root layout — wraps all screens
+├── (tabs)/                 # Tab bar group
+│   ├── _layout.tsx         # Defines the 3 tabs: Home, Workout, Progress
+│   ├── index.tsx           # Home screen — dashboard & quick stats
+│   ├── workout.tsx         # Log Workout screen — add exercises & sets
+│   └── progress.tsx        # Progress screen — history & stats
+└── modal.tsx               # Example modal (can be repurposed later)
+
+components/                 # Reusable UI building blocks
+├── themed-text.tsx         # Text that adapts to light/dark mode
+├── themed-view.tsx         # View container that adapts to light/dark mode
+├── haptic-tab.tsx          # Tab bar button with haptic feedback
+├── parallax-scroll-view.tsx
+├── hello-wave.tsx
+└── ui/
+    └── icon-symbol.tsx     # SF Symbol icons (iOS native icons)
+
+constants/
+└── theme.ts                # Color definitions for light and dark themes
+
+hooks/
+├── use-color-scheme.ts     # Detect light/dark mode
+└── use-theme-color.ts      # Resolve colors for current theme
+
+assets/
+└── images/                 # App icons, splash screens, etc.
 ```
 
-### Testing
+## Screen Guide
 
-- Write tests before or alongside new functionality
-- Test files should mirror the source structure
-- Each test should test one behavior
-- Tests should be runnable with a single command (document it here once established)
+### Home (`app/(tabs)/index.tsx`)
+Dashboard shown on app open. Currently displays:
+- Time-of-day greeting and today's date
+- "Start Workout" button (navigates to Workout tab)
+- Quick stats cards (workouts this week, total sets)
+- Recent workout history list
 
-### Documentation
+All stats and history are placeholders — they'll be populated once data persistence is added.
 
-- Keep README.md updated with setup instructions and usage examples
-- Document non-obvious decisions in code comments or ADRs (Architecture Decision Records)
-- Update CLAUDE.md whenever new tooling, workflows, or conventions are established
+### Workout (`app/(tabs)/workout.tsx`)
+The primary logging screen. Allows users to:
+- Name their workout session
+- Add multiple exercises
+- Log sets per exercise (reps + weight in lbs)
+- Add more sets with the "+ Add Set" button
+
+The "Save Workout" button currently has no action — the next step is wiring it to persistent storage.
+
+### Progress (`app/(tabs)/progress.tsx`)
+Overview of the user's history. Will show:
+- Summary stats (total workouts, sets, heaviest lift, streak)
+- Volume-over-time chart
+- Scrollable workout history list
+
+Currently all placeholders until data persistence is implemented.
+
+## Key Conventions
+
+### Styling
+- All styling uses React Native's `StyleSheet.create()` — defined at the bottom of each file
+- No external CSS or styling libraries — keep it plain RN styles
+- Primary accent color: `#E63946` (red) — used for buttons and interactive elements
+- Use `ThemedText` and `ThemedView` (from `@/components/`) instead of bare `Text`/`View` to get automatic light/dark mode support
+
+### File naming
+- All files use **kebab-case** (e.g., `themed-text.tsx`, `use-color-scheme.ts`)
+- Screens live in `app/(tabs)/`; shared UI lives in `components/`
+
+### TypeScript
+- Always define types for props and state shapes
+- Use `type` (not `interface`) for local data shapes
+- Keep types co-located with the component that uses them (no separate types file yet)
+
+### State Management
+- Currently using React's built-in `useState` — no external state library
+- When data persistence is needed, the plan is to use `AsyncStorage` (local) or a lightweight DB like SQLite via `expo-sqlite`
+
+## Next Steps (Planned Features)
+
+- [ ] **Persist workouts** — save logged workouts to device storage with `expo-sqlite`
+- [ ] **Populate Home stats** — count sessions, sets from saved data
+- [ ] **Progress charts** — render a volume-over-time line chart (e.g., `victory-native`)
+- [ ] **Workout history list** — scrollable list of past sessions with tap-to-expand
+- [ ] **Exercise autocomplete** — suggest common exercise names while typing
+- [ ] **Rest timer** — countdown between sets
 
 ## AI Assistant Instructions
 
-### When adding new features
+### When adding new screens
+1. Create the file in `app/(tabs)/` for a new tab, or `app/` for a full-screen pushed route
+2. Register new tabs in `app/(tabs)/_layout.tsx`
+3. Use `ThemedText` and `ThemedView` — never raw `Text` or `View`
+4. Define styles with `StyleSheet.create()` at the bottom of the file
 
-1. Understand the existing code structure before making changes
-2. Follow established patterns already present in the codebase
-3. Run the full test suite before committing
-4. Keep changes focused - avoid unrelated refactoring in the same commit
-
-### When fixing bugs
-
-1. Reproduce the bug first (write a failing test if possible)
-2. Make the minimal change needed to fix the issue
-3. Do not clean up unrelated code in the same commit
+### When adding features
+1. Read the relevant screen file first to understand existing state shape
+2. Add state with `useState`; keep logic inside the component unless it needs sharing
+3. Follow the existing color and spacing patterns
+4. Test on iPhone via Expo Go before committing
 
 ### What to avoid
+- Do not add navigation libraries — Expo Router handles routing
+- Do not add a global state library until clearly needed
+- Do not inline styles — always use `StyleSheet.create()`
+- Do not add comments explaining what code does; only add comments for non-obvious logic
 
-- Do not add features not explicitly requested
-- Do not refactor code outside the scope of the task
-- Do not add comments explaining what code does (only why, when non-obvious)
-- Do not add unnecessary abstractions or over-engineer solutions
+## Git Workflow
 
-## Setup
+```bash
+# Feature branch
+git checkout -b feature/<short-description>
 
-> This section should be updated once a specific language/framework is chosen.
+# Commit (imperative mood)
+git commit -m "Add set deletion to workout logger"
 
-Currently there are no dependencies or build steps. Add setup instructions here when the project is initialized with a specific stack.
+# Push
+git push -u origin <branch-name>
+```
 
-## TODO for project initialization
-
-When starting development, update this file with:
-
-- [ ] Language and framework chosen
-- [ ] Package manager and dependency file (e.g., `package.json`, `requirements.txt`, `go.mod`)
-- [ ] How to install dependencies
-- [ ] How to run the project locally
-- [ ] How to run tests
-- [ ] Linting/formatting tools and how to run them
-- [ ] CI/CD pipeline details
-- [ ] Environment variable requirements
-- [ ] Deployment process
+Commit message format: `<verb> <what> [— <why if non-obvious>]`
+Examples: `Add progress chart`, `Fix set index off-by-one`, `Save workouts to SQLite`
