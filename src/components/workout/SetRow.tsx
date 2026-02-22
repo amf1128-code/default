@@ -44,7 +44,7 @@ export default function SetRow({
   }
 
   return (
-    <div className="flex items-center gap-2 py-1.5">
+    <div className="flex items-center gap-2 py-2">
       <span className="text-[0.65rem] font-bold text-text-ghost w-6 shrink-0">
         S{index + 1}
       </span>
@@ -55,7 +55,7 @@ export default function SetRow({
         placeholder="lbs"
         value={weight}
         onChange={(e) => handleWeightChange(e.target.value)}
-        className="w-16 bg-white/[0.06] border border-white/[0.1] rounded-lg px-2.5 py-1.5 text-sm text-text font-semibold text-center outline-none focus:border-gold transition-colors"
+        className="w-16 bg-white/[0.06] border border-white/[0.1] rounded-lg px-2.5 py-2.5 text-sm text-text font-semibold text-center outline-none focus:border-gold transition-colors"
       />
 
       <input
@@ -64,7 +64,7 @@ export default function SetRow({
         placeholder="reps"
         value={reps}
         onChange={(e) => handleRepsChange(e.target.value)}
-        className="w-14 bg-white/[0.06] border border-white/[0.1] rounded-lg px-2 py-1.5 text-sm text-text font-semibold text-center outline-none focus:border-gold transition-colors"
+        className="w-14 bg-white/[0.06] border border-white/[0.1] rounded-lg px-2 py-2.5 text-sm text-text font-semibold text-center outline-none focus:border-gold transition-colors"
       />
 
       <div className="flex gap-1">
@@ -73,7 +73,7 @@ export default function SetRow({
             key={val}
             type="button"
             onClick={() => handleChipTap(val)}
-            className={`px-2 py-1 rounded-md text-[0.65rem] font-bold transition-colors ${
+            className={`px-2.5 py-2 rounded-md text-xs font-bold transition-colors ${
               reps === String(val)
                 ? "bg-gold/20 text-gold border border-gold/40"
                 : "bg-border/30 text-text-ghost border border-transparent hover:text-text-faint"

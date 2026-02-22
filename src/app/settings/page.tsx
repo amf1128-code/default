@@ -89,7 +89,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="px-4 pt-6 pb-6">
+    <div className="px-5 pt-10 pb-8">
       <h1 className="text-2xl font-extrabold tracking-tight text-white mb-6">
         Settings
       </h1>
@@ -167,7 +167,7 @@ export default function SettingsPage() {
 
         {/* Template form */}
         {showForm && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <input
               type="text"
               placeholder="Template name (e.g., Push Day)"
@@ -185,7 +185,7 @@ export default function SettingsPage() {
                     key={area}
                     type="button"
                     onClick={() => toggleArea(area)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                    className={`px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
                       selectedAreas.has(area)
                         ? "bg-gold/15 text-gold border border-gold/40"
                         : "bg-border/30 text-text-ghost border border-transparent"
@@ -213,7 +213,7 @@ export default function SettingsPage() {
                         key={name}
                         type="button"
                         onClick={() => toggleExercise(area, name)}
-                        className={`px-2.5 py-1 rounded-lg text-[0.7rem] font-semibold transition-colors ${
+                        className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
                           isSelected
                             ? "bg-gold/15 text-gold border border-gold/40"
                             : "bg-border/30 text-text-ghost border border-transparent"

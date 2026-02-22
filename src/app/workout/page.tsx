@@ -128,7 +128,7 @@ export default function WorkoutSelect() {
       : [...selected].map((a) => AREA_META[a].label).join(" + ");
 
   return (
-    <div className="px-4 pt-6 pb-6">
+    <div className="px-5 pt-10 pb-8">
       <div className="mb-5">
         <h1 className="text-2xl font-extrabold tracking-tight text-white">
           What are we hitting?

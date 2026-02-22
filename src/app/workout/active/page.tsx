@@ -123,7 +123,7 @@ export default function ActiveWorkout() {
 
   if (!workout) {
     return (
-      <div className="px-4 pt-6">
+      <div className="px-5 pt-6">
         <p className="text-sm text-text-dim">Loading workout...</p>
       </div>
     );
@@ -132,13 +132,13 @@ export default function ActiveWorkout() {
   const title = workout.areas.map((a) => AREA_META[a]?.label || a).join(" + ") + " Day";
 
   return (
-    <div className="px-4 pt-6 pb-6">
+    <div className="px-5 pt-6 pb-8">
       {/* Hero bar */}
       <div className="flex items-center justify-between mb-5">
         <button
           type="button"
           onClick={handleBack}
-          className="text-xs font-semibold text-text-muted px-3 py-1.5 rounded-xl bg-white/[0.07] backdrop-blur-sm border border-white/[0.12]"
+          className="text-sm font-semibold text-text-muted px-4 py-2.5 rounded-xl bg-white/[0.07] backdrop-blur-sm border border-white/[0.12]"
         >
           &larr; Back
         </button>
@@ -146,7 +146,7 @@ export default function ActiveWorkout() {
         <button
           type="button"
           onClick={handleFinish}
-          className="text-xs font-bold text-bg px-3 py-1.5 rounded-xl bg-gold"
+          className="text-sm font-bold text-bg px-4 py-2.5 rounded-xl bg-gold"
         >
           Finish
         </button>

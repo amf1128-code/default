@@ -64,7 +64,7 @@ const ExerciseCard = forwardRef<ExerciseCardRef, ExerciseCardProps>(
           />
           <h3 className="text-sm font-bold text-text flex-1">{name}</h3>
           {lastWeight && (
-            <span className="text-[0.6rem] font-bold text-text-ghost bg-white/[0.06] border border-white/[0.08] px-2 py-0.5 rounded-md">
+            <span className="text-xs font-bold text-text-ghost bg-white/[0.06] border border-white/[0.08] px-2 py-0.5 rounded-md">
               Last: {lastWeight} lbs
             </span>
           )}
@@ -89,7 +89,7 @@ const ExerciseCard = forwardRef<ExerciseCardRef, ExerciseCardProps>(
         <button
           type="button"
           onClick={addSet}
-          className="mt-2 text-[0.7rem] font-bold text-text-ghost hover:text-text-dim transition-colors"
+          className="mt-3 text-xs font-bold text-text-ghost hover:text-text-dim transition-colors py-1"
         >
           + Add Set
         </button>

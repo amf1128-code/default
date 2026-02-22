@@ -14,10 +14,10 @@ export default function HistoryPage() {
   }, []);
 
   return (
-    <div className="px-4 pt-6">
+    <div className="px-5 pt-10 pb-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-extrabold tracking-tight text-white">History</h1>
-        <Link href="/" className="text-xs font-semibold text-text-muted px-3 py-1.5 rounded-xl bg-white/[0.07] backdrop-blur-sm border border-white/[0.12]">
+        <Link href="/" className="text-sm font-semibold text-text-muted px-4 py-2.5 rounded-xl bg-white/[0.07] backdrop-blur-sm border border-white/[0.12]">
           Back
         </Link>
       </div>
@@ -41,7 +41,7 @@ export default function HistoryPage() {
                 className="rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-4 cursor-pointer transition-colors active:bg-border/20"
                 onClick={() => setExpandedIndex(isExpanded ? null : i)}
               >
-                <p className="text-[0.65rem] font-medium uppercase tracking-widest text-text-faint">
+                <p className="text-xs font-medium uppercase tracking-widest text-text-faint">
                   {dateStr} &middot; {timeStr}
                 </p>
                 <p className="text-sm font-bold text-gold mt-1">{entry.areas.join(" + ")}</p>
