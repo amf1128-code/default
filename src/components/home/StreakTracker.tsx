@@ -56,7 +56,7 @@ export default function StreakTracker() {
           const isToday = day.date === today;
           return (
             <div key={day.date} className="flex flex-col items-center gap-2">
-              <span className="text-[0.65rem] font-semibold text-text-ghost uppercase">{day.label}</span>
+              <span className="text-xs font-semibold text-text-ghost uppercase">{day.label}</span>
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                   isActive

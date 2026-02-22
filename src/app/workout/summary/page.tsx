@@ -54,7 +54,7 @@ export default function WorkoutSummary() {
 
   if (!summary) {
     return (
-      <div className="px-4 pt-6">
+      <div className="px-5 pt-10">
         <p className="text-sm text-text-dim">Loading summary...</p>
       </div>
     );
@@ -67,7 +67,7 @@ export default function WorkoutSummary() {
   const totalSets = summary.exercises.reduce((sum, ex) => sum + ex.sets.length, 0);
 
   return (
-    <div className="px-4 pt-6 pb-6">
+    <div className="px-5 pt-10 pb-8">
       {/* Header */}
       <div className="text-center mb-6">
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-green/20 border-2 border-green mb-3">
@@ -96,13 +96,13 @@ export default function WorkoutSummary() {
       <div className="grid grid-cols-2 gap-2.5 mb-6">
         <div className="rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-3.5 text-center">
           <p className="text-lg font-extrabold text-text">{summary.exercises.length}</p>
-          <p className="text-[0.6rem] font-bold uppercase tracking-widest text-text-ghost mt-1">
+          <p className="text-xs font-bold uppercase tracking-widest text-text-ghost mt-1">
             Exercises
           </p>
         </div>
         <div className="rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-3.5 text-center">
           <p className="text-lg font-extrabold text-text">{totalSets}</p>
-          <p className="text-[0.6rem] font-bold uppercase tracking-widest text-text-ghost mt-1">
+          <p className="text-xs font-bold uppercase tracking-widest text-text-ghost mt-1">
             Sets
           </p>
         </div>
@@ -156,7 +156,7 @@ function StatCard({
       <p className={`text-base font-extrabold tracking-tight ${highlight ? "text-red-400" : "text-text"}`}>
         {value}
       </p>
-      <p className="text-[0.6rem] font-bold uppercase tracking-widest text-text-ghost mt-1">
+      <p className="text-xs font-bold uppercase tracking-widest text-text-ghost mt-1">
         {label}
       </p>
     </div>

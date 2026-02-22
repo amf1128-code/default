@@ -66,7 +66,7 @@ export default function RestTimer({ defaultDuration, active, onDismiss }: RestTi
           className="flex items-center gap-2 flex-1"
         >
           <span
-            className={`text-[0.65rem] font-bold uppercase tracking-widest ${
+            className={`text-xs font-bold uppercase tracking-widest ${
               isOvertime ? "text-red-400" : "text-gold"
             }`}
           >
@@ -80,7 +80,7 @@ export default function RestTimer({ defaultDuration, active, onDismiss }: RestTi
             {isOvertime ? "-" : ""}{timeStr}
           </span>
           {paused && (
-            <span className="text-[0.6rem] text-text-ghost">(tap to resume)</span>
+            <span className="text-xs text-text-ghost">(tap to resume)</span>
           )}
         </button>
 

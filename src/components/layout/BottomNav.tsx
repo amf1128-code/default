@@ -70,7 +70,7 @@ export default function BottomNav() {
             >
               {tab.icon(active)}
               <span
-                className={`text-[0.6rem] font-semibold tracking-wide uppercase ${
+                className={`text-xs font-semibold tracking-wide uppercase ${
                   active ? "text-gold" : "text-text-faint"
                 }`}
               >
