@@ -138,7 +138,7 @@ export default function ActiveWorkout() {
         <button
           type="button"
           onClick={handleBack}
-          className="text-xs font-semibold text-text-muted px-3 py-1.5 rounded-xl bg-border/30 border border-border-light"
+          className="text-xs font-semibold text-text-muted px-3 py-1.5 rounded-xl bg-white/[0.07] backdrop-blur-sm border border-white/[0.12]"
         >
           &larr; Back
         </button>

@@ -94,13 +94,13 @@ export default function WorkoutSummary() {
 
       {/* Quick stats */}
       <div className="grid grid-cols-2 gap-2.5 mb-6">
-        <div className="rounded-xl bg-surface border border-border p-3.5 text-center">
+        <div className="rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-3.5 text-center">
           <p className="text-lg font-extrabold text-text">{summary.exercises.length}</p>
           <p className="text-[0.6rem] font-bold uppercase tracking-widest text-text-ghost mt-1">
             Exercises
           </p>
         </div>
-        <div className="rounded-xl bg-surface border border-border p-3.5 text-center">
+        <div className="rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-3.5 text-center">
           <p className="text-lg font-extrabold text-text">{totalSets}</p>
           <p className="text-[0.6rem] font-bold uppercase tracking-widest text-text-ghost mt-1">
             Sets
@@ -111,7 +111,7 @@ export default function WorkoutSummary() {
       {/* Exercise breakdown */}
       <div className="space-y-2 mb-6">
         {summary.exercises.map((ex, i) => (
-          <div key={i} className="rounded-xl bg-surface border border-border p-3">
+          <div key={i} className="rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-3">
             <p className="text-xs font-bold text-gold mb-1.5">{ex.name}</p>
             {ex.sets.map((set, si) => (
               <p key={si} className="text-xs text-text-faint">
@@ -152,7 +152,7 @@ function StatCard({
   highlight?: boolean;
 }) {
   return (
-    <div className="rounded-xl bg-surface border border-border p-3.5 text-center">
+    <div className="rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-3.5 text-center">
       <p className={`text-base font-extrabold tracking-tight ${highlight ? "text-red-400" : "text-text"}`}>
         {value}
       </p>

@@ -15,7 +15,7 @@ export default function LastWorkout() {
 
   if (!last) {
     return (
-      <div className="rounded-2xl bg-surface border border-border p-5">
+      <div className="rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-5">
         <h3 className="text-xs font-bold uppercase tracking-widest text-text-ghost mb-2">Last Workout</h3>
         <p className="text-sm text-text-dim">No workouts yet — let&apos;s fix that!</p>
       </div>
@@ -28,7 +28,7 @@ export default function LastWorkout() {
 
   return (
     <div
-      className="rounded-2xl bg-surface border border-border p-5 cursor-pointer transition-colors active:bg-border/30"
+      className="rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-5 cursor-pointer transition-all active:bg-white/[0.09]"
       onClick={() => setExpanded(!expanded)}
     >
       <h3 className="text-xs font-bold uppercase tracking-widest text-text-ghost mb-3">Last Workout</h3>
@@ -53,9 +53,9 @@ export default function LastWorkout() {
       </div>
 
       {expanded && last.exercises && (
-        <div className="mt-4 pt-4 border-t border-border space-y-2">
+        <div className="mt-4 pt-4 border-t border-white/[0.08] space-y-2">
           {last.exercises.map((ex, i) => (
-            <div key={i} className="rounded-xl bg-bg border border-border-light p-3">
+            <div key={i} className="rounded-xl bg-white/[0.04] backdrop-blur-md border border-white/[0.08] p-3">
               <p className="text-xs font-bold text-gold mb-1">{ex.name}</p>
               {ex.sets.map((set, si) => (
                 <p key={si} className="text-xs text-text-faint">
