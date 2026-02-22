@@ -139,7 +139,7 @@ export default function WorkoutSelect() {
       </div>
 
       {/* Workout mode toggle */}
-      <div className="flex gap-1.5 mb-5 bg-surface border border-border rounded-xl p-1">
+      <div className="flex gap-1.5 mb-5 bg-white/[0.05] backdrop-blur-lg border border-white/[0.1] rounded-xl p-1">
         <ModeButton
           label="Random"
           active={mode === "random"}
@@ -170,7 +170,7 @@ export default function WorkoutSelect() {
               className={`w-full text-left rounded-xl p-3 border transition-colors ${
                 selectedTemplate === t.id
                   ? "bg-gold/10 border-gold/40 text-gold"
-                  : "bg-surface border-border text-text-muted hover:border-border-light"
+                  : "bg-white/[0.05] backdrop-blur-sm border-white/[0.1] text-text-muted"
               }`}
             >
               <p className="text-sm font-bold">{t.name}</p>
@@ -195,7 +195,7 @@ export default function WorkoutSelect() {
                   className={`w-full flex flex-col items-center justify-center gap-1.5 p-5 rounded-2xl border text-sm font-bold uppercase tracking-wide transition-all active:scale-[0.97] ${
                     isSelected
                       ? "bg-gold/10 border-gold/40 text-gold"
-                      : "bg-surface border-border text-text-muted hover:border-border-light"
+                      : "bg-white/[0.05] backdrop-blur-sm border-white/[0.1] text-text-muted"
                   }`}
                 >
                   {isSelected && (

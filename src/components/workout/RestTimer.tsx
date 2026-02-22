@@ -88,7 +88,7 @@ export default function RestTimer({ defaultDuration, active, onDismiss }: RestTi
           <button
             type="button"
             onClick={() => setShowPicker(!showPicker)}
-            className="w-7 h-7 rounded-lg bg-border/40 flex items-center justify-center"
+            className="w-7 h-7 rounded-lg bg-white/[0.08] flex items-center justify-center"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#71717a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3" />
@@ -106,7 +106,7 @@ export default function RestTimer({ defaultDuration, active, onDismiss }: RestTi
       </div>
 
       {showPicker && (
-        <div className="flex gap-1.5 mt-2 pt-2 border-t border-border">
+        <div className="flex gap-1.5 mt-2 pt-2 border-t border-white/[0.08]">
           {DURATION_OPTIONS.map((d) => (
             <button
               key={d}

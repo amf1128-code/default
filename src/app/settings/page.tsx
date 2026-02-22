@@ -95,7 +95,7 @@ export default function SettingsPage() {
       </h1>
 
       {/* Rest Timer Setting */}
-      <div className="rounded-2xl bg-surface border border-border p-5 mb-4">
+      <div className="rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-5 mb-4">
         <h2 className="text-xs font-bold uppercase tracking-widest text-text-ghost mb-3">
           Default Rest Timer
         </h2>
@@ -118,7 +118,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Workout Templates */}
-      <div className="rounded-2xl bg-surface border border-border p-5">
+      <div className="rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xs font-bold uppercase tracking-widest text-text-ghost">
             Workout Templates
@@ -143,7 +143,7 @@ export default function SettingsPage() {
           templates.map((t) => (
             <div
               key={t.id}
-              className="flex items-center justify-between py-3 border-b border-border last:border-0"
+              className="flex items-center justify-between py-3 border-b border-white/[0.08] last:border-0"
             >
               <button
                 type="button"
@@ -173,7 +173,7 @@ export default function SettingsPage() {
               placeholder="Template name (e.g., Push Day)"
               value={templateName}
               onChange={(e) => setTemplateName(e.target.value)}
-              className="w-full bg-bg border border-border rounded-xl px-3 py-2.5 text-sm text-text outline-none focus:border-gold transition-colors"
+              className="w-full bg-white/[0.06] border border-white/[0.1] rounded-xl px-3 py-2.5 text-sm text-text outline-none focus:border-gold transition-colors"
             />
 
             {/* Area selection */}
@@ -232,7 +232,7 @@ export default function SettingsPage() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="flex-1 py-2.5 rounded-xl text-sm font-bold text-text-ghost bg-border/30 border border-border"
+                className="flex-1 py-2.5 rounded-xl text-sm font-bold text-text-ghost bg-white/[0.06] border border-white/[0.1]"
               >
                 Cancel
               </button>

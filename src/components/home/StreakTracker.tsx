@@ -43,7 +43,7 @@ export default function StreakTracker() {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="rounded-2xl bg-surface border border-border p-5">
+    <div className="rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-5">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xs font-bold uppercase tracking-widest text-text-ghost">This Week</h3>
         <span className="text-xs font-bold text-gold">
@@ -63,7 +63,7 @@ export default function StreakTracker() {
                     ? "bg-gold/20 border-2 border-gold"
                     : isToday
                     ? "bg-border-light/30 border-2 border-border-light"
-                    : "bg-border/30 border border-border"
+                    : "bg-white/[0.06] border border-white/[0.1]"
                 }`}
               >
                 {isActive && (

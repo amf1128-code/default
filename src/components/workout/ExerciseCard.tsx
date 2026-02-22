@@ -55,7 +55,7 @@ const ExerciseCard = forwardRef<ExerciseCardRef, ExerciseCardProps>(
     }
 
     return (
-      <div className="rounded-2xl bg-surface border border-border p-4">
+      <div className="rounded-2xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-4">
         <div className="flex items-center gap-2 mb-3">
           <div
             className={`w-2 h-2 rounded-full shrink-0 ${
@@ -64,7 +64,7 @@ const ExerciseCard = forwardRef<ExerciseCardRef, ExerciseCardProps>(
           />
           <h3 className="text-sm font-bold text-text flex-1">{name}</h3>
           {lastWeight && (
-            <span className="text-[0.6rem] font-bold text-text-ghost bg-border/40 px-2 py-0.5 rounded-md">
+            <span className="text-[0.6rem] font-bold text-text-ghost bg-white/[0.06] border border-white/[0.08] px-2 py-0.5 rounded-md">
               Last: {lastWeight} lbs
             </span>
           )}

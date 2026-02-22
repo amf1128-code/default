@@ -53,7 +53,7 @@ export default function StatsCards() {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-xl bg-surface border border-border p-3.5 text-center"
+          className="rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] p-3.5 text-center"
         >
           <p className="text-lg font-extrabold text-text tracking-tight">{stat.value}</p>
           <p className="text-[0.6rem] font-bold uppercase tracking-widest text-text-ghost mt-1">{stat.label}</p>
