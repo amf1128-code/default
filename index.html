@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Workout Tracker</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f0f0f;
+      color: #f0f0f0;
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: #ccc;
+    }
+
+    /* Body area selection screen */
+    #area-select {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .area-btn {
+      display: block;
+      width: 100%;
+      padding: 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.1s;
+      color: #fff;
+    }
+
+    .area-btn:active { transform: scale(0.97); }
+
+    .area-btn[data-area="chest"]    { background: #c0392b; }
+    .area-btn[data-area="back"]     { background: #2980b9; }
+    .area-btn[data-area="legs"]     { background: #27ae60; }
+    .area-btn[data-area="arms"]     { background: #8e44ad; }
+    .area-btn[data-area="shoulders"]{ background: #d35400; }
+
+    /* Workout screen */
+    #workout-screen {
+      display: none;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    #workout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #workout-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    #back-btn {
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .exercise-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-left: 4px solid #555;
+    }
+
+    .exercise-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .sets-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .set-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .set-label {
+      font-size: 0.85rem;
+      color: #888;
+      width: 50px;
+      flex-shrink: 0;
+    }
+
+    .set-row input {
+      width: 80px;
+      padding: 10px 8px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #252525;
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .set-row input::placeholder {
+      color: #555;
+    }
+
+    .input-label {
+      font-size: 0.75rem;
+      color: #666;
+      width: 30px;
+    }
+
+    .exercise-card.done {
+      border-left-color: #27ae60;
+    }
+
+    .exercise-card.done .exercise-name::after {
+      content: " \2713";
+      color: #27ae60;
+    }
+
+    #finish-btn {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      padding: 18px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    #finish-btn:active { transform: scale(0.97); }
+
+    /* Summary screen */
+    #summary-screen {
+      display: none;
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    #summary-screen h2 {
+      font-size: 1.5rem;
+      color: #27ae60;
+      margin-bottom: 20px;
+    }
+
+    #summary-list {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .summary-exercise {
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+
+    .summary-exercise h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .summary-exercise p {
+      font-size: 0.85rem;
+      color: #999;
+      margin: 2px 0;
+    }
+
+    #new-workout-btn {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Pick a body area -->
+  <div id="area-select">
+    <h1>Gym Workout</h1>
+    <h2>What are we hitting today?</h2>
+    <button class="area-btn" data-area="chest">Chest</button>
+    <button class="area-btn" data-area="back">Back</button>
+    <button class="area-btn" data-area="legs">Legs</button>
+    <button class="area-btn" data-area="arms">Arms</button>
+    <button class="area-btn" data-area="shoulders">Shoulders</button>
+  </div>
+
+  <!-- Screen 2: Today's workout -->
+  <div id="workout-screen">
+    <div id="workout-header">
+      <h2 id="workout-title"></h2>
+      <button id="back-btn">Back</button>
+    </div>
+    <div id="exercise-list"></div>
+    <button id="finish-btn">Finish Workout</button>
+  </div>
+
+  <!-- Screen 3: Summary -->
+  <div id="summary-screen">
+    <h2>Workout Complete!</h2>
+    <div id="summary-list"></div>
+    <button id="new-workout-btn">Start New Workout</button>
+  </div>
+
+  <script>
+    // ----- Exercise database -----
+    const WORKOUTS = {
+      chest: [
+        ["Flat Barbell Bench Press", "Incline Dumbbell Press", "Cable Flyes", "Push-Ups"],
+        ["Incline Barbell Bench Press", "Flat Dumbbell Press", "Pec Deck Machine", "Dips"],
+        ["Dumbbell Bench Press", "Incline Smith Machine Press", "Low Cable Crossover", "Decline Push-Ups"],
+      ],
+      back: [
+        ["Barbell Rows", "Lat Pulldowns", "Seated Cable Rows", "Face Pulls"],
+        ["Pull-Ups", "Dumbbell Rows", "T-Bar Row", "Straight Arm Pulldowns"],
+        ["Deadlifts", "Wide Grip Lat Pulldown", "Cable Rows", "Reverse Flyes"],
+      ],
+      legs: [
+        ["Barbell Squats", "Romanian Deadlifts", "Leg Press", "Calf Raises"],
+        ["Front Squats", "Leg Curls", "Walking Lunges", "Leg Extensions"],
+        ["Goblet Squats", "Hip Thrusts", "Bulgarian Split Squats", "Seated Calf Raises"],
+      ],
+      arms: [
+        ["Barbell Curls", "Tricep Dips", "Hammer Curls", "Overhead Tricep Extension"],
+        ["Dumbbell Curls", "Close Grip Bench Press", "Preacher Curls", "Tricep Pushdowns"],
+        ["EZ Bar Curls", "Skull Crushers", "Concentration Curls", "Cable Tricep Kickbacks"],
+      ],
+      shoulders: [
+        ["Overhead Press", "Lateral Raises", "Front Raises", "Reverse Pec Deck"],
+        ["Dumbbell Shoulder Press", "Cable Lateral Raises", "Arnold Press", "Face Pulls"],
+        ["Military Press", "Upright Rows", "Dumbbell Lateral Raises", "Rear Delt Flyes"],
+      ],
+    };
+
+    const SETS_PER_EXERCISE = 3;
+
+    // ----- State -----
+    let currentArea = null;
+    let currentExercises = [];
+
+    // ----- DOM refs -----
+    const areaSelect    = document.getElementById("area-select");
+    const workoutScreen = document.getElementById("workout-screen");
+    const summaryScreen = document.getElementById("summary-screen");
+    const workoutTitle  = document.getElementById("workout-title");
+    const exerciseList  = document.getElementById("exercise-list");
+    const summaryList   = document.getElementById("summary-list");
+
+    // ----- Pick a random workout for the area -----
+    function generateWorkout(area) {
+      const options = WORKOUTS[area];
+      const pick = options[Math.floor(Math.random() * options.length)];
+      return pick;
+    }
+
+    // ----- Render the workout -----
+    function showWorkout(area) {
+      currentArea = area;
+      currentExercises = generateWorkout(area);
+
+      workoutTitle.textContent = area + " Day";
+      exerciseList.innerHTML = "";
+
+      currentExercises.forEach((name, i) => {
+        const card = document.createElement("div");
+        card.className = "exercise-card";
+        card.dataset.index = i;
+
+        let setsHTML = "";
+        for (let s = 1; s <= SETS_PER_EXERCISE; s++) {
+          setsHTML += `
+            <div class="set-row">
+              <span class="set-label">Set ${s}</span>
+              <input type="number" inputmode="decimal" placeholder="0" data-exercise="${i}" data-set="${s}" data-field="weight">
+              <span class="input-label">lbs</span>
+              <input type="number" inputmode="numeric" placeholder="0" data-exercise="${i}" data-set="${s}" data-field="reps">
+              <span class="input-label">reps</span>
+            </div>`;
+        }
+
+        card.innerHTML = `
+          <div class="exercise-name">${name}</div>
+          <div class="sets-container">${setsHTML}</div>`;
+
+        exerciseList.appendChild(card);
+      });
+
+      // Mark card as done when any input in it has a value
+      exerciseList.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", () => {
+          const card = input.closest(".exercise-card");
+          const inputs = card.querySelectorAll("input");
+          const anyFilled = Array.from(inputs).some(inp => inp.value !== "");
+          card.classList.toggle("done", anyFilled);
+        });
+      });
+
+      areaSelect.style.display = "none";
+      summaryScreen.style.display = "none";
+      workoutScreen.style.display = "block";
+    }
+
+    // ----- Finish workout & show summary -----
+    function finishWorkout() {
+      summaryList.innerHTML = "";
+
+      currentExercises.forEach((name, i) => {
+        const div = document.createElement("div");
+        div.className = "summary-exercise";
+
+        let setsText = "";
+        for (let s = 1; s <= SETS_PER_EXERCISE; s++) {
+          const w = exerciseList.querySelector(`input[data-exercise="${i}"][data-set="${s}"][data-field="weight"]`).value || "-";
+          const r = exerciseList.querySelector(`input[data-exercise="${i}"][data-set="${s}"][data-field="reps"]`).value || "-";
+          setsText += `<p>Set ${s}: ${w} lbs x ${r} reps</p>`;
+        }
+
+        div.innerHTML = `<h3>${name}</h3>${setsText}`;
+        summaryList.appendChild(div);
+      });
+
+      workoutScreen.style.display = "none";
+      summaryScreen.style.display = "block";
+    }
+
+    // ----- Event listeners -----
+    document.querySelectorAll(".area-btn").forEach(btn => {
+      btn.addEventListener("click", () => showWorkout(btn.dataset.area));
+    });
+
+    document.getElementById("back-btn").addEventListener("click", () => {
+      workoutScreen.style.display = "none";
+      areaSelect.style.display = "flex";
+    });
+
+    document.getElementById("finish-btn").addEventListener("click", finishWorkout);
+
+    document.getElementById("new-workout-btn").addEventListener("click", () => {
+      summaryScreen.style.display = "none";
+      areaSelect.style.display = "flex";
+    });
+  </script>
+</body>
+</html>
